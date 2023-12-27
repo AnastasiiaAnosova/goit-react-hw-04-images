@@ -1,34 +1,61 @@
-import { Component } from "react";
+import { useCallback, useEffect } from "react";
 import { createPortal } from 'react-dom';
 
 import { Overlay, ModalStyles } from './Modal.styled';
 
 const modalRoot = document.querySelector('#modal-root');
 
-class Modal extends Component {
+const Modal = ({ url, alt, toogleModal }) => {
 
-    componentDidMount() {
-        document.addEventListener('keydown', this.handleKeyEsc);
-    }
+    const handleKeyEsc = useCallback((e) => {
+        if (e.code === 'Escape') toogleModal();
+    }, [toogleModal]);
 
-    componentWillUnmount() {
-        document.removeEventListener('keydown', this.handleKeyEsc);
-    }
+    useEffect(() => {
+        document.addEventListener('keydown', handleKeyEsc);
 
-    handleKeyEsc = (e) => {
-        if (e.code === 'Escape') this.props.toogleModal();
-    }
+        return () => {
+            document.removeEventListener('keydown', handleKeyEsc);
+        };
+    }, [handleKeyEsc]);
 
-    render() {
-        const { url, alt, toogleModal } = this.props;
-        return createPortal(
-            <Overlay onClick={toogleModal}>
-                <ModalStyles>
-                    <img src={url} alt={alt} />
-                </ModalStyles>
-            </Overlay>
-            , modalRoot)
-    }
+    return createPortal(
+        <Overlay onClick={toogleModal}>
+            <ModalStyles>
+                <img src={url} alt={alt} />
+            </ModalStyles>
+        </Overlay>
+        , modalRoot)
 }
 
-export default Modal;
+export default Modal
+
+// const modalRoot = document.querySelector('#modal-root');
+
+// class Modal extends Component {
+
+//     componentDidMount() {
+//         document.addEventListener('keydown', this.handleKeyEsc);
+//     }
+
+//     componentWillUnmount() {
+//         document.removeEventListener('keydown', this.handleKeyEsc);
+//     }
+
+//     handleKeyEsc = (e) => {
+//         if (e.code === 'Escape') this.props.toogleModal();
+//     }
+
+//     render() {
+//         const { url, alt, toogleModal } = this.props;
+//         return createPortal(
+//             <Overlay onClick={toogleModal}>
+//                 <ModalStyles>
+//                     <img src={url} alt={alt} />
+//                 </ModalStyles>
+//             </Overlay>
+//             , modalRoot)
+//     }
+// }
+
+// export default Modal;

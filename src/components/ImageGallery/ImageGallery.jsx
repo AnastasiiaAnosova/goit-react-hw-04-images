@@ -1,14 +1,15 @@
 import React from 'react'
 import ImageGalleryItem from 'components/ImageGalleryItem/ImageGalleryItem'
 import { ImageGalleryContainer } from './ImageGallery.styled'
+import { nanoid } from "nanoid";
 
 
 const ImageGallery = ({ images, toogleModal }) => {
     return (
         <ImageGalleryContainer>
-            {images.map(({ id, webformatURL, largeImageURL, tags }) => (
+            {images.map(({ webformatURL, largeImageURL, tags }) => (
                 <ImageGalleryItem
-                    key={id}
+                    key={nanoid()}
                     webformatURL={webformatURL}
                     alt={tags}
                     largeImageURL={largeImageURL}

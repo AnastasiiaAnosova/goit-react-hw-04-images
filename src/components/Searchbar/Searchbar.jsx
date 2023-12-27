@@ -1,44 +1,78 @@
-import { Component } from "react";
+import { useState } from "react";
 import { SearchbarHeader, SearchForm, SearchFormButton, SearchFormInput, SearchFormIcon } from "../Searchbar/Searchbar.styled";
 
+const Searchbar = ({ submit }) => {
 
-class Searchbar extends Component {
-    state = {
-        searchQuery: ''
+    const [searchQuery, setSearchQuery] = useState('');
+
+    const handleChange = ({ target: { value } }) => {
+        setSearchQuery(value);
     }
 
-    handleChange = ({ target: { value } }) => {
-        this.setState({
-            searchQuery: value
-        })
-    }
-
-    handleSubmit = (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
-        this.props.submit(this.state.searchQuery);
-        this.setState({ searchQuery: '' });
+        submit(searchQuery);
+        setSearchQuery('');
     }
 
-    render() {
-        return (
-            <SearchbarHeader>
-                <SearchForm onClick={this.handleSubmit}>
-                    <SearchFormButton type="submit">
-                        <SearchFormIcon />
-                    </SearchFormButton>
+    return (
+        <SearchbarHeader>
+            <SearchForm onClick={handleSubmit}>
+                <SearchFormButton type="submit">
+                    <SearchFormIcon />
+                </SearchFormButton>
 
-                    <SearchFormInput
-                        type="text"
-                        autoComplete="off"
-                        autoFocus
-                        placeholder="Search images and photos"
-                        onChange={this.handleChange}
-                    />
-                </SearchForm>
-            </SearchbarHeader>
-        );
-    }
-
+                <SearchFormInput
+                    type="text"
+                    autoComplete="off"
+                    autoFocus
+                    placeholder="Search images and photos"
+                    onChange={handleChange}
+                />
+            </SearchForm>
+        </SearchbarHeader>
+    );
 }
 
 export default Searchbar
+
+// class Searchbar extends Component {
+//     state = {
+//         searchQuery: ''
+//     }
+
+//     handleChange = ({ target: { value } }) => {
+//         this.setState({
+//             searchQuery: value
+//         })
+//     }
+
+//     handleSubmit = (e) => {
+//         e.preventDefault();
+//         this.props.submit(this.state.searchQuery);
+//         this.setState({ searchQuery: '' });
+//     }
+
+//     render() {
+//         return (
+//             <SearchbarHeader>
+//                 <SearchForm onClick={this.handleSubmit}>
+//                     <SearchFormButton type="submit">
+//                         <SearchFormIcon />
+//                     </SearchFormButton>
+
+//                     <SearchFormInput
+//                         type="text"
+//                         autoComplete="off"
+//                         autoFocus
+//                         placeholder="Search images and photos"
+//                         onChange={this.handleChange}
+//                     />
+//                 </SearchForm>
+//             </SearchbarHeader>
+//         );
+//     }
+
+// }
+
+// export default Searchbar
